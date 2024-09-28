@@ -25,7 +25,7 @@ with yaspin(text="Initializing...", color="magenta") as spinner:
         spinner.stop()  # Ensure the spinner is stopped after the process
 
 class GeminiVisionApp:
-    def __init__(self, root, show_available_models: bool = False):
+    def __init__(self, root, show_available_models:bool = False):
         """
         Initialize the Gemini Vision application with the given root window and optional flag to show all available models.
 
@@ -53,13 +53,7 @@ class GeminiVisionApp:
         self.canvas = tk.Canvas(root, width=640, height=480)
         self.canvas.pack()
 
-        if show_available_models:
-            all_models = []
-            with yaspin(text="Fetching All Available Models...", color="magenta") as spinner:
-                for model in genai.list_models():
-                    all_models.append(model.name)
-                spinner.stop()
-                print(f"All Available Models: {all_models}\n")
+        if show_available_models:self.print_available_models()
 
         self.model = genai.GenerativeModel("models/gemini-1.5-flash-001", system_instruction="You are a highly advanced real-time vision assistant designed to analyze the surroundings with utmost accuracy and detail. Your goal is to provide a comprehensive, clear, and short description of the surrounding, focusing on key elements such as objects, people, scenes, colors, emotions, and activities. Explain the relationships between objects, estimate the context of the scene, and note any significant visual details that make the surrounding unique. Ensure the description is informative, engaging, and insightful, with the ability to infer deeper meanings when applicable. Prioritize clarity, but do not shy away from complex interpretations when needed, making the response human-like and intuitive.")
 
@@ -199,6 +193,6 @@ class GeminiVisionApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = GeminiVisionApp(root)
+    app = GeminiVisionApp(root, show_available_models=True)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
